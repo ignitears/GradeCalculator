@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thai GPA Calculator</title>
+    
+    <!-- 4. Basic SEO -->
+    <title>Thai GPA Calculator | โปรแกรมคำนวณเกรดเฉลี่ย</title>
+    <meta name="description" content="Calculate your Thai Grade Point Average (GPA) easily. Supports Excel upload, pasting table data, and bilingual English/Thai modes.">
+    
+    <!-- 3. Google Search Console Verification -->
+    <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
+
+    <!-- 2. Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFS1L9Y4C4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QFS1L9Y4C4');
+    </script>
+
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -23,10 +39,11 @@
                 <h2 data-i18n="box1">1. Upload Excel File</h2>
                 <label class="file-upload-btn">
                     <span data-i18n="browse">Browse Files...</span>
-                    <input type="file" id="uploadExcel" accept=".xlsx, .xls">
+                    <!-- 5. Event Tracking: Track Excel Uploads -->
+                    <input type="file" id="uploadExcel" accept=".xlsx, .xls" onclick="typeof gtag === 'function' && gtag('event', 'click_upload_excel')">
                 </label>
                 <span id="fileName" class="file-name" data-i18n="nofile">No file chosen</span>
-                <p style="margin-top: 15px; font-size: 0.85rem; color: #64748b; line-height: 1.5;" data-i18n="excelRule">
+                <p style="margin-top: 15px; font-size: 0.85rem; color: #6b7280; line-height: 1.5;" data-i18n="excelRule">
                     <b>Format Required:</b> Use the first sheet. Row 1 is ignored (for headers).<br>
                     Column A = Subject, Column B = Credits, Column C = Grade.
                 </p>
@@ -34,7 +51,8 @@
             <div class="box">
                 <h2 data-i18n="box2">2. Or Paste Table Data</h2>
                 <textarea id="pasteArea" data-i18n-ph="paste" placeholder="Copy from Word or Excel and paste here..."></textarea>
-                <button onclick="handlePaste()" class="btn btn-secondary w-full mt-2" data-i18n="btnReviewPaste">Review & Add Pasted Data</button>
+                <!-- 5. Event Tracking: Track Paste actions -->
+                <button onclick="handlePaste(); typeof gtag === 'function' && gtag('event', 'click_paste_data')" class="btn btn-secondary w-full mt-2" data-i18n="btnReviewPaste">Review & Add Pasted Data</button>
             </div>
         </div>
 
@@ -60,17 +78,24 @@
         </div>
 
         <div class="actions">
-            <button onclick="calculate()" class="btn btn-calc" data-i18n="btnCalc">Calculate GPA</button>
-            <button onclick="downloadExcel()" class="btn btn-export" data-i18n="btnExport">Export to Excel</button>
+            <!-- 5. Event Tracking: Track Core Actions -->
+            <button onclick="calculate(); typeof gtag === 'function' && gtag('event', 'click_calculate')" class="btn btn-calc" data-i18n="btnCalc">Calculate GPA</button>
+            <button onclick="downloadExcel(); typeof gtag === 'function' && gtag('event', 'click_export_excel')" class="btn btn-export" data-i18n="btnExport">Export to Excel</button>
             <div class="gpa-display"><span data-i18n="targetGpa">Target GPA:</span> <span id="gpaResult">0.00</span></div>
         </div>
     </div>
 
-    <!-- Review Modal -->
+    <!-- 6. Trust Links Footer -->
+    <div style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: #6b7280;">
+        <a href="about.html" style="color: #6b7280; text-decoration: none; margin: 0 10px;">About</a> | 
+        <a href="privacy.html" style="color: #6b7280; text-decoration: none; margin: 0 10px;">Privacy Policy</a>
+    </div>
+
+    <!-- Review Modal (Hidden by default) -->
     <div id="reviewModal" class="modal-overlay" style="display: none;">
         <div class="modal-content">
-            <h2 data-i18n="modalTitle" style="margin-top: 0;">Review & Edit Data</h2>
-            <p style="color: #666; margin-bottom: 15px; font-size: 0.9rem;" data-i18n="modalDesc">Check your imported data below before adding it to the main calculator.</p>
+            <h2 data-i18n="modalTitle" style="margin-top: 0; color: #111827;">Review & Edit Data</h2>
+            <p style="color: #6b7280; margin-bottom: 15px; font-size: 0.9rem;" data-i18n="modalDesc">Check your imported data below before adding it to the main calculator.</p>
             
             <div class="table-container" style="max-height: 40vh; margin-bottom: 15px;">
                 <table>
